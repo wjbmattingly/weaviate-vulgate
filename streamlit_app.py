@@ -4,6 +4,120 @@ from sentence_transformers import SentenceTransformer
 import weaviate
 from weaviate.auth import Auth
 from weaviate.collections.classes.filters import Filter
+st.markdown("""
+<style>
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+/* CSS Variables for color palette */
+:root {
+  --primary-bg: #f4f1e9;
+  --secondary-bg: #e6e2d3;
+  --primary-text: #2c2c2c;
+  --secondary-text: #4a4a4a;
+  --accent: #8b7d6b;
+  --highlight: #b7a99a;
+}
+
+/* Base styles */
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: var(--secondary-text);
+}
+
+h1 {
+  font-size: 2.5em;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 10px;
+}
+
+/* Streamlit specific styles */
+.stTextInput > div > div > input {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--accent);
+  color: var(--primary-text);
+}
+
+.stButton > button {
+  background-color: var(--accent);
+  color: var(--primary-bg);
+  border: none;
+  padding: 10px 20px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
+
+.stButton > button:hover {
+  background-color: var(--highlight);
+}
+
+/* Multiselect styles */
+.stMultiSelect > div > div > div {
+  background-color: var(--secondary-bg);
+}
+
+.stMultiSelect > div > div > div:hover {
+  border-color: var(--highlight);
+}
+
+.stMultiSelect > div[data-baseweb="select"] > div > div > div[role="option"] {
+  background-color: var(--accent);
+  color: var(--primary-bg);
+}
+
+/* Slider styles */
+.stSlider > div > div > div > div {
+  background-color: var(--accent);
+}
+
+/* Expander styles */
+.streamlit-expanderHeader {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  font-family: 'Playfair Display', serif;
+  color: var(--secondary-text);
+}
+
+.streamlit-expanderContent {
+  background-color: var(--primary-bg);
+  border: 1px solid var(--accent);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  padding: 10px;
+}
+
+/* Progress bar styles */
+.stProgress > div > div > div > div {
+  background-color: var(--accent);
+}
+
+/* Custom classes */
+.bible-verse {
+  font-style: italic;
+  color: var(--secondary-text);
+  margin: 10px 0;
+  padding: 10px;
+  background-color: var(--secondary-bg);
+  border-left: 3px solid var(--accent);
+}
+
+.similarity-score {
+  font-weight: 600;
+  color: var(--accent);
+}
+""", unsafe_allow_html=True)
+
 
 @st.cache_resource
 def load_model():
@@ -65,7 +179,7 @@ if st.button("Search"):
         st.subheader(f"Found {len(results)} similar verses:")
         for i, result in enumerate(results, 1):
             with st.expander(f"{i}. {result['book']} {result['chapter']}:{result['verse']} (Similarity: {1 - result['distance']:.2f})", expanded=True):
-                st.markdown(f"**{result['text']}**")
+                st.markdown(f"<div class='bible-verse'>{result['text']}</div>", unsafe_allow_html=True)
                 st.progress(1 - result['distance'])
     else:
         st.warning("No results found. Try adjusting the similarity threshold or search query.")
