@@ -159,11 +159,6 @@ st.title("Latin Vulgate Verse Similarity Search")
 
 model = load_model()
 
-client = weaviate.connect_to_weaviate_cloud(
-    cluster_url=st.secrets["WEAVIATE_URL"],
-    auth_credentials=Auth.api_key(st.secrets["WEAVIATE_API_KEY"]),
-)
-vulgate = client.collections.get(st.secrets["COLLECTION_NAME"])
 
 query = st.text_input("Enter your search query:")
 books = st.multiselect("Select book(s)", vulgate_books.keys())
@@ -173,6 +168,12 @@ threshold = col1.slider("Similarity threshold:", 0.0, 1.0, value=0.5, step=0.01)
 limit = col2.slider("Number of results:", 1, 10, value=5, step=1)
 
 if st.button("Search"):
+    with weaviate.connect_to_weaviate_cloud(
+        cluster_url=st.secrets["WEAVIATE_URL"],
+        auth_credentials=Auth.api_key(st.secrets["WEAVIATE_API_KEY"]),
+    ) as client:
+        vulgate = client.collections.get(st.secrets["COLLECTION_NAME"])
+
     results = find_similar(query, model, threshold, limit, select_books)
     
     if results:
@@ -183,3 +184,4 @@ if st.button("Search"):
                 st.progress(1 - result['distance'])
     else:
         st.warning("No results found. Try adjusting the similarity threshold or search query.")
+    client.close()
