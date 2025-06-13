@@ -8,6 +8,10 @@ This project loads the Clementine Vulgate (Latin Bible) into a Weaviate vector d
 - Stores the text, book, chapter, and verse, along with the embedding, in a Weaviate collection.
 - Supports batch insertion for efficient data loading.
 
+## Dataset
+
+The Vulgate version used is the Clementine version available from [The Clementine Text Project](https://vulsearch.sourceforge.net/). This was cleaned and structured into a CSV file. I would like to thank Marjorie Burghart for drawing this dataset to my attention.
+
 ## Setup
 
 1. **Clone the repository:**
