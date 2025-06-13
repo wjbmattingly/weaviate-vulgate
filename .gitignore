@@ -1,6 +1,8 @@
 .env
 *.parquet
 .streamlit/secrets.toml
+
+.DS_Store
 # Python
 __pycache__/
 *.py[cod]
