@@ -10,7 +10,7 @@ This project loads the Clementine Vulgate (Latin Bible) into a Weaviate vector d
 
 ## Dataset
 
-The Vulgate version used is the Clementine version available from [The Clementine Text Project](https://vulsearch.sourceforge.net/). This was cleaned and structured into a CSV file. I would like to thank Marjorie Burghart for drawing this dataset to my attention.
+The Vulgate version used is the Clementine version available from [The Clementine Text Project](https://vulsearch.sourceforge.net/). This was cleaned and structured into a CSV file. I would like to thank Marjorie Burghart for drawing this dataset to my attention. This dataset is licensed by the project as GPLv2.
 
 ## Setup
 
